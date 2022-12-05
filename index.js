@@ -3,25 +3,29 @@
 // Başlangıç Challenge'ı
 
 /**Örnek Görev: İlkini Dön
- * 
+ *
  * Bu örnek sonradan gelecek olan görevleri nasıl çözeceğinizi size gösterecek.
- * 
+ *
  * Aşağdıaki Yüksek dereceden fonskiyonu(higher-order function) kullanarak aşağıdakileri yapınız
  *  1. Stringlerden oluşan bir array'i parametre olarak alın
- *  2. Bir string'i değişken olarak alan bir callback fonksiyonunu parametre olarak alın 
+ *  2. Bir string'i değişken olarak alan bir callback fonksiyonunu parametre olarak alın
  *  3. Array'in İLK elemanını değişken olarak alarak çalışacak olan callback fonksiyonunun sonucunu dönün
- * 
+ *
  * Aşağıdaki kodlar bu görevin nasıl yapılacağına örnek olacaktır
  * Bu fonskiyon 'asas' dönmeli(return)
-*/
+ */
 
 function ilkiniDon(stringArray, callback) {
-  return callback(stringArray[0])
+  return callback(stringArray[0]);
 }
-console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
+console.log(
+  "örnek görev:",
+  ilkiniDon(["as", "sa"], function (metin) {
+    return metin + metin;
+  })
+);
 
 // Başlangıç Challenge'ı Sonu
-
 
 ///// M V P ///////
 
@@ -31,17 +35,26 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   
   1. skor1 ve skor2 arasındaki fark nedir?
   
+ -- Skor 1 de fonksiyon içinde değer tanımlanmış globalde geçerli olamaz bu değer
+  skor 2 de ise global de değer atanmış fonksiyon dışında da çağırılabilir.
+  
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
+  --skor 1 closure kullanmıştır fonksiyon içinde fonksiyon olması durumunda child fonksiyon da tanımlı değer gözükmüüyorsa
+  parent fonksiyona bakar eğer orada o değer varsa o değeri kullanır fonksiyonlar da hafızalar vardır çağrılmasa bile
+  hafızalarda o değer tutulur.
   
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  skor 1 belirli bir yere ait kalması gerekiyorsa diğer fonksiyonlarla bir ilişkin olmaması durumunda sadece 
+  ait olduğu fonksiyon guruba göre değerleri tutar
+  fakat skor 2 de globala ait olduğu için çağırılan fonksiyona göre değeri değiştirilebilir
 */
 
 // skor1 kodları
 function skorArtirici() {
   let skor = 0;
   return function skorGuncelle() {
-   return skor++;
-  }
+    return skor++;
+  };
 }
 
 const skor1 = skorArtirici();
@@ -53,7 +66,6 @@ function skor2() {
   return skor++;
 }
 
-
 /* Görev 2: takimSkoru() 
 Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
   1. Bir çeyrekte bir takımın ürettiği skoru rastgele(random) elde eden bir sonuc dönünüz(return)
@@ -64,13 +76,10 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru() {
+  const random = Math.floor(Math.random() * 15 + 10);
+  return random;
 }
-
-
-
-
 /* Görev 3: macSonucu() 
 Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
   1. Görev 2'de oluşturduğunuz 'takimSkoru'nu callback fonskiyonunu olarak ilk parametrede alın
@@ -84,16 +93,24 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
   "EvSahibi": 92,
   "KonukTakim": 80
 }
-*/ 
+*/
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru, sayac) {
+  let deger1 = 0;
+  let deger2 = 0;
+
+  for (let i = 0; i < sayac; i++) {
+    let EvSahibi = takimSkoru();
+    let KonukTakim = takimSkoru();
+    deger1 = EvSahibi + deger1;
+    deger2 = KonukTakim + deger2;
+  }
+  const sonuc = {
+    EvSahibi: deger1,
+    KonukTakim: deger2,
+  };
+  return sonuc;
 }
-
-
-
-
-
 
 /* Zorlayıcı Görev 4: periyotSkoru()
 Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
@@ -108,12 +125,15 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
 }
   */
 
-
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
+function periyotSkoru(takimSkoru) {
+  const skor1 = takimSkoru();
+  const skor2 = takimSkoru();
+  const periyotSkor = {
+    EvSahibi: skor1,
+    KonukTakim: skor2,
+  };
+  return periyotSkor;
 }
-
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -146,17 +166,45 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(skor, skorPeriyot, parametre) {
+  let dizi = [];
+  let deger1 = 0;
+  let deger2 = 0;
+
+  for (let i = 0; i < parametre; i++) {
+    let periyotSkor = skorPeriyot(skor);
+    let deger = `${i + 1} Periyot Ev Sahibi ${
+      periyotSkor.EvSahibi
+    } - Konuk Takım ${periyotSkor.KonukTakim}`;
+    dizi.push(deger);
+    deger1 = deger1 + periyotSkor.EvSahibi;
+    deger2 = deger2 + periyotSkor.KonukTakim;
+      
+  }
+    if (parametre === 4) {
+      const sonuc = `Maç Sonucu: Ev Sahibi ${deger1} - Konuk Takım ${deger2}`;
+      dizi.push(sonuc);
+    }
+  if (deger1 === deger2) {
+    for (let i = 0; i < 4; i++){
+      let periyotSkor = skorPeriyot(skor);
+      let deger = `${i+1}. uzatma Ev Sahibi ${periyotSkor.EvSahibi} - Konuk Takım ${periyotSkor.KonukTakim}`
+      dizi.push(deger)
+      deger1 = deger1 + periyotSkor.EvSahibi;
+      deger2 = deger2 + periyotSkor.KonukTakim;
+    }
+    const sonuc = `Uzatma Sonucu: Ev Sahibi ${deger1} - Konuk Takım ${deger2}`;
+    dizi.push(sonuc)
+  }
+
+  console.log(dizi);
 }
-
-
-
+skorTabelasi(takimSkoru, periyotSkoru, 4);
 
 /* Aşağıdaki satırları lütfen değiştirmeyiniz*/
-function sa(){
-  console.log('Kodlar çalışıyor');
-  return 'as';
+function sa() {
+  console.log("Kodlar çalışıyor");
+  return "as";
 }
 sa();
 module.exports = {
@@ -168,4 +216,4 @@ module.exports = {
   macSonucu,
   periyotSkoru,
   skorTabelasi,
-}
+};
